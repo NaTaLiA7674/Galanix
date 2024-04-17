@@ -3,6 +3,7 @@ from PIL import Image, ImageTk, ImageDraw, ImageFilter
 import tkinter.messagebox as messagebox
 import datetime
 from archivos import *
+from calculadora import *
 
 def login():
     global e2, formulario_frame
@@ -43,7 +44,7 @@ def pantallaPrincipal():
         footer_frame.destroy()
 
     # Cargar la imagen y aplicar el filtro de desenfoque
-    imagen = Image.open("fondo.jpg")
+    imagen = Image.open("imagenes/fondo.jpg")
     imagen = imagen.filter(ImageFilter.GaussianBlur(10)) 
     imagen = imagen.resize((ancho, alto - margen), Image.ANTIALIAS)
     imagen_borrosa = ImageTk.PhotoImage(imagen)
@@ -53,7 +54,7 @@ def pantallaPrincipal():
     fondo_label.place(x=0, y=0, relwidth=1, relheight=1)
 
     # Cargar la imagen del logo
-    imagen_logo = Image.open("logo.jpg")  
+    imagen_logo = Image.open("imagenes/logo.jpg")  
     imagen_logo = imagen_logo.resize((40, 40), Image.ANTIALIAS)
 
     # Crear una máscara redonda
@@ -79,7 +80,7 @@ def pantallaPrincipal():
     formulario_frame.place(relx=0.5, rely=0.5, anchor="center")
 
     # Cargar la imagen del usuario
-    usuario = Image.open("usuario.jpg")  
+    usuario = Image.open("imagenes/usuario.jpg")  
     usuario = usuario.resize((200, 200), Image.ANTIALIAS)
 
     # Convertir la imagen a formato ImageTk
@@ -140,7 +141,7 @@ def escritorio_interfaz():
     fondo_label.image = imagen_clara
 
 # Cargar la imagen sin desenfoque
-imagen_clara = Image.open("fondo.jpg")
+imagen_clara = Image.open("imagenes/fondo.jpg")
 imagen_clara = imagen_clara.resize((ancho, alto - margen), Image.ANTIALIAS)
 imagen_clara = ImageTk.PhotoImage(imagen_clara)
 
@@ -156,31 +157,31 @@ def mostrar_footer():
     actualizar_hora(label_footer)  # Llamar a la función para actualizar la hora
 
     # Agregar un botón para cerrar sesión, que muestre el formulario y sea un ícono
-    imagen_salir = Image.open("salir.jpg")
+    imagen_salir = Image.open("imagenes/salir.jpg")
     imagen_salir = imagen_salir.resize((30, 30), Image.ANTIALIAS)
     salir = ImageTk.PhotoImage(imagen_salir)
     salir_boton = Button(footer_frame, image=salir, bg="#61677A", command=pantallaPrincipal)
     salir_boton.pack(side=LEFT, pady=10, padx=10)
 
     # Agregar otro ícono para archivos
-    imagen_archivos = Image.open("archivos.jpg")
+    imagen_archivos = Image.open("imagenes/archivos.jpg")
     imagen_archivos = imagen_archivos.resize((30, 30), Image.ANTIALIAS)
     archivos = ImageTk.PhotoImage(imagen_archivos)
     archivos_boton = Button(footer_frame, image=archivos, bg="#61677A", command=abrir_explorador_archivos_windows)
     archivos_boton.pack(side=LEFT, pady=10, padx=10)
 
     # Agregar otro ícono para el navegador google
-    imagen_google = Image.open("google.jpg")
+    imagen_google = Image.open("imagenes/google.jpg")
     imagen_google = imagen_google.resize((30, 30), Image.ANTIALIAS)
     google = ImageTk.PhotoImage(imagen_google)
     google_boton = Button(footer_frame, image=google, bg="#61677A")
     google_boton.pack(side=LEFT, pady=10, padx=10)
 
     # Agregar un botón para abrir la calculadora
-    imagen_calculadora = Image.open("calculadora.jpg")
+    imagen_calculadora = Image.open("imagenes/calculadora.jpg")
     imagen_calculadora = imagen_calculadora.resize((30, 30), Image.ANTIALIAS)
     calculadora = ImageTk.PhotoImage(imagen_calculadora)
-    calculadora_boton = Button(footer_frame, image=calculadora, bg="#61677A")
+    calculadora_boton = Button(footer_frame, image=calculadora, bg="#61677A", command=open_calculator)
     calculadora_boton.pack(side=LEFT, pady=10, padx=10)
 
 # Función para actualizar la hora actual
@@ -195,24 +196,24 @@ def mostrar_widgets():
     global archivos_ventana, google_ventana, calculadora_ventana  
    
     # Agregar un espacio para mostrar archivos en el escritorio
-    imagen_archivos = Image.open("archivos.jpg")
+    imagen_archivos = Image.open("imagenes/archivos.jpg")
     imagen_archivos = imagen_archivos.resize((60, 60), Image.ANTIALIAS)
     archivos_ventana = ImageTk.PhotoImage(imagen_archivos)
     archivos_boton = Button(ventana, image=archivos_ventana, text='Archivos', bg="#61677A", compound="top", fg="white", command=abrir_explorador_archivos_windows)
     archivos_boton.place(x=50, y=530)
 
     # Agregar un espacio para abrir el navegador google
-    imagen_google = Image.open("google.jpg")
+    imagen_google = Image.open("imagenes/google.jpg")
     imagen_google = imagen_google.resize((60, 60), Image.ANTIALIAS)
     google_ventana = ImageTk.PhotoImage(imagen_google)
     google_boton = Button(ventana, image=google_ventana, text='Google', bg="#61677A", compound="top", fg="white")
     google_boton.place(x=50, y=410)
 
     #Agregar un espacio para abrir la calculadora científica
-    imagen_calculadora = Image.open("calculadora.jpg")
+    imagen_calculadora = Image.open("imagenes/calculadora.jpg")
     imagen_calculadora = imagen_calculadora.resize((60, 60), Image.ANTIALIAS)
     calculadora_ventana = ImageTk.PhotoImage(imagen_calculadora)
-    calculadora_boton = Button(ventana, image=calculadora_ventana, text='Calculadora', bg="#61677A", compound="top", fg="white")
+    calculadora_boton = Button(ventana, image=calculadora_ventana, text='Calculadora', bg="#61677A", compound="top", fg="white", command=open_calculator)
     calculadora_boton.place(x=50, y=290)
    
 
