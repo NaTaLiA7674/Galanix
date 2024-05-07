@@ -90,9 +90,9 @@ def pantallaPrincipal():
     usuario_label = Label(formulario_frame, image=usuario_imagen, highlightthickness=3, highlightbackground="#272829")
     usuario_label.grid(row=1, column=1, padx=70, pady=20)
 
-    # Mensaje de bienvenida en el centro de la pantalla
-    mensaje_bienvenida = Label(formulario_frame, text="¡Bienvenida, Natalia!", font=("Berlin Sans FB", 16), bg="#D8D9DA")
-    mensaje_bienvenida.grid(row=2, column=1, pady=10)
+    def on_entry_click2(event):
+        if e1.get() == '  Usuario':
+            e1.delete(0, "end")
 
     def on_entry_click(event):
         if e2.get() == '  Contraseña':
@@ -110,6 +110,12 @@ def pantallaPrincipal():
             e2.insert(0, '  Contraseña')
             e2.config(show="")
             ventana.focus_set()  # Cambiar el foco a la ventana para ocultar el cursor
+
+    # Crear una casilla para ingresar el usuario
+    e1 = Entry(formulario_frame, font=("Berlin Sans FB", 11), fg='gray', highlightthickness=2, highlightbackground="#272829")
+    e1.insert(0, '  Usuario')
+    e1.grid(row=2, column=1, padx=10, pady=10, ipady=10, ipadx=40)
+    e1.bind('<FocusIn>', on_entry_click2)
 
     e2 = Entry(formulario_frame, font=("Berlin Sans FB", 11), fg='gray', show="", highlightthickness=2, highlightbackground="#272829")
     e2.insert(0, '  Contraseña')
