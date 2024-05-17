@@ -45,7 +45,3 @@ def guardar_usuario(usuario):
     usuario.crear_estructura_directorios()
 
     
-
-# Ejemplo de uso
-nuevo_usuario = Usuarios('ejemplo', 'contraseña123')
-guardar_usuario(nuevo_usuario)

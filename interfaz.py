@@ -4,21 +4,37 @@ import tkinter.messagebox as messagebox
 import datetime
 from archivos import *
 from calculadora import *
+from usuarios import *
+from tkinter import simpledialog
+import bcrypt
+
+def validar_usuario(nombre, contraseña):
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Nata20031712++",
+        database="galanix"
+    )
+    cursor = connection.cursor()
+    query = "SELECT * FROM usuarios WHERE nombre = %s AND contraseña = %s"
+    values = (nombre, contraseña)
+    cursor.execute(query, values)
+    resultado = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    return resultado is not None
 
 def login():
-    global e2, formulario_frame
+    global e1, e2, formulario_frame
+    nombre = e1.get()
     clave = e2.get()
-    if clave == "123":
-        #Ocultar el formulario
+    if validar_usuario(nombre, clave):
         formulario_frame.lower()
-        # Cargar la imagen sin desenfoque
         escritorio_interfaz()
-        # Mostrar el footer
         mostrar_footer()
-        #mostrar los widgets
         mostrar_widgets()
     else:
-        messagebox.showerror(message="contraseña incorrecta", title="Error")
+        messagebox.showerror(message="Contraseña incorrecta", title="Error")
 
 ventana = Tk()
 ventana.title("Galanix")
@@ -37,7 +53,7 @@ ventana.resizable(0, 0)
 #FUNCIONES PARA LA PANTALLA PRINCIPAL
 
 def pantallaPrincipal():
-    global imagen_borrosa, logo, usuario_imagen, e2, fondo_label, formulario_frame
+    global imagen_borrosa, logo, usuario_imagen, e2, e1, fondo_label, formulario_frame
 
     # Eliminar el footer si ya existe
     if 'footer_frame' in globals():
@@ -78,6 +94,57 @@ def pantallaPrincipal():
     # Crear un frame para el formulario
     formulario_frame = Frame(ventana, bg="#D8D9DA", width=400, height=400, highlightthickness=5, highlightbackground="#272829")
     formulario_frame.place(relx=0.5, rely=0.5, anchor="center")
+
+    # Función para crear un usuario
+    def crear_usuario():
+        # Función para abrir la ventana emergente y crear el usuario
+        dialog = tk.Toplevel()
+        dialog.title("Crear Usuario")
+        dialog.geometry("400x200")  # Tamaño de la ventana emergente
+
+        # Obtener el tamaño de la pantalla y de la ventana emergente
+        ancho_pantalla = dialog.winfo_screenwidth()
+        alto_pantalla = dialog.winfo_screenheight()
+        ancho_ventana = 400
+        alto_ventana = 200
+
+        # Calcular la posición para centrar la ventana
+        x = (ancho_pantalla // 2) - (ancho_ventana // 2)
+        y = (alto_pantalla // 2) - (alto_ventana // 2)
+        dialog.geometry(f"{ancho_ventana}x{alto_ventana}+{x}+{y}")
+
+        # Crear un marco centrado dentro de la ventana emergente
+        frame = tk.Frame(dialog)
+        frame.pack(expand=True)
+
+        tk.Label(frame, text="Nombre de usuario:").grid(row=0, column=0, padx=10, pady=5)
+        entry_nombre = tk.Entry(frame)
+        entry_nombre.grid(row=0, column=1, padx=10, pady=5)
+        
+        tk.Label(frame, text="Contraseña:").grid(row=1, column=0, padx=10, pady=5)
+        entry_contrasena = tk.Entry(frame, show='*')
+        entry_contrasena.grid(row=1, column=1, padx=10, pady=5)
+        
+        def confirmar():
+            nombre = entry_nombre.get()
+            contrasena = entry_contrasena.get()
+            if nombre and contrasena:
+                nuevo_usuario = Usuarios(nombre, contrasena)
+                guardar_usuario(nuevo_usuario)
+                messagebox.showinfo("Éxito", "Usuario creado correctamente.")
+                dialog.destroy()
+            else:
+                messagebox.showwarning("Advertencia", "Por favor, ingrese nombre de usuario y contraseña.")
+        
+        tk.Button(frame, text="Confirmar", command=confirmar).grid(row=2, column=0, columnspan=2, pady=10)
+        
+        dialog.transient(ventana)
+        dialog.grab_set()
+        ventana.wait_window(dialog)
+
+    #Crear un botón para crear un usuario en la parte superior derecha de la ventana
+    b2 = Button(ventana, text="Crear Usuario", font=("Berlin Sans FB", 14), bg="#61677A", borderwidth=0, highlightthickness=0, fg="white", command=crear_usuario)
+    b2.place(x=ancho-150, y=20)
 
     # Cargar la imagen del usuario
     usuario = Image.open("imagenes/usuario.jpg")  
