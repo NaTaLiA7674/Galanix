@@ -7,6 +7,15 @@ from calculadora import *
 from usuarios import *
 from tkinter import simpledialog
 import bcrypt
+from juego import *
+import subprocess
+from reproductorMusica import *
+
+def iniciar_juego():
+    subprocess.run(["python", "juego.py"])
+
+def iniciar_reproductor():
+    subprocess.run(["python", "reproductorMusica.py"])
 
 def validar_usuario(nombre, contraseña):
     connection = mysql.connector.connect(
@@ -266,28 +275,42 @@ def actualizar_hora(label_footer):
 
 # Función para mostrar los widgets en el escritorio
 def mostrar_widgets():
-    global archivos_ventana, google_ventana, calculadora_ventana  
+    global archivos_ventana, google_ventana, calculadora_ventana, juego_ventana, musica_ventana
    
     # Agregar un espacio para mostrar archivos en el escritorio
     imagen_archivos = Image.open("imagenes/archivos.jpg")
-    imagen_archivos = imagen_archivos.resize((60, 60), Image.ANTIALIAS)
+    imagen_archivos = imagen_archivos.resize((50, 50), Image.ANTIALIAS)
     archivos_ventana = ImageTk.PhotoImage(imagen_archivos)
     archivos_boton = Button(ventana, image=archivos_ventana, text='Archivos', bg="#61677A", compound="top", fg="white", command=abrir_explorador_archivos_windows)
     archivos_boton.place(x=50, y=530)
 
     # Agregar un espacio para abrir el navegador google
     imagen_google = Image.open("imagenes/google.jpg")
-    imagen_google = imagen_google.resize((60, 60), Image.ANTIALIAS)
+    imagen_google = imagen_google.resize((50, 50), Image.ANTIALIAS)
     google_ventana = ImageTk.PhotoImage(imagen_google)
     google_boton = Button(ventana, image=google_ventana, text='Google', bg="#61677A", compound="top", fg="white")
-    google_boton.place(x=50, y=410)
+    google_boton.place(x=50, y=430)
 
     #Agregar un espacio para abrir la calculadora científica
     imagen_calculadora = Image.open("imagenes/calculadora.jpg")
-    imagen_calculadora = imagen_calculadora.resize((60, 60), Image.ANTIALIAS)
+    imagen_calculadora = imagen_calculadora.resize((50, 50), Image.ANTIALIAS)
     calculadora_ventana = ImageTk.PhotoImage(imagen_calculadora)
     calculadora_boton = Button(ventana, image=calculadora_ventana, text='Calculadora', bg="#61677A", compound="top", fg="white", command=open_calculator)
-    calculadora_boton.place(x=50, y=290)
+    calculadora_boton.place(x=50, y=330)
+
+    #Agregar un espacio para abrir el juego de la serpiente
+    imagen_juego = Image.open("imagenes/culebrita.webp")
+    imagen_juego = imagen_juego.resize((50, 50), Image.ANTIALIAS)
+    juego_ventana = ImageTk.PhotoImage(imagen_juego)
+    juego_boton = Button(ventana, image=juego_ventana, text='Juego', bg="#61677A", compound="top", fg="white", command=iniciar_juego)
+    juego_boton.place(x=50, y=230)
+
+    #Agregar un espacio para abrir el reproductor de música
+    imagen_musica = Image.open("imagenes/musica.jpg")
+    imagen_musica = imagen_musica.resize((50, 50), Image.ANTIALIAS)
+    musica_ventana = ImageTk.PhotoImage(imagen_musica)
+    musica_boton = Button(ventana, image=musica_ventana, text='Música', bg="#61677A", compound="top", fg="white", command=iniciar_reproductor)
+    musica_boton.place(x=50, y=130)
    
 
 # Ejecutar la ventana

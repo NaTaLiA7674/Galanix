@@ -151,3 +151,4 @@ if __name__ == "__main__":
     juego = JuegoCulebrita()
     juego.bind("<KeyPress>", juego.cambiar_direccion)
     juego.mainloop()
+
