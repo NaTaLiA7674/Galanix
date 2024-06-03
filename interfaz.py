@@ -10,12 +10,20 @@ import bcrypt
 from juego import *
 import subprocess
 from reproductorMusica import *
+from visorImagen import *
+from VisorVideo import *
 
 def iniciar_juego():
     subprocess.run(["python", "juego.py"])
 
 def iniciar_reproductor():
     subprocess.run(["python", "reproductorMusica.py"])
+
+def iniciar_visorImagen():
+    subprocess.run(["python", "visorImagen.py"])
+
+def iniciar_visorVideo():
+    subprocess.run(["python", "VisorVideo.py"])
 
 def validar_usuario(nombre, contraseña):
     connection = mysql.connector.connect(
@@ -275,7 +283,7 @@ def actualizar_hora(label_footer):
 
 # Función para mostrar los widgets en el escritorio
 def mostrar_widgets():
-    global archivos_ventana, google_ventana, calculadora_ventana, juego_ventana, musica_ventana
+    global archivos_ventana, google_ventana, calculadora_ventana, juego_ventana, musica_ventana, imagen_ventana, video_ventana
    
     # Agregar un espacio para mostrar archivos en el escritorio
     imagen_archivos = Image.open("imagenes/archivos.jpg")
@@ -311,6 +319,20 @@ def mostrar_widgets():
     musica_ventana = ImageTk.PhotoImage(imagen_musica)
     musica_boton = Button(ventana, image=musica_ventana, text='Música', bg="#61677A", compound="top", fg="white", command=iniciar_reproductor)
     musica_boton.place(x=50, y=130)
+
+    #Agregar un espacio para abrir el visor de imágenes
+    imagen_imagen = Image.open("imagenes/Imagen.webp")
+    imagen_imagen = imagen_imagen.resize((50, 50), Image.ANTIALIAS)
+    imagen_ventana = ImageTk.PhotoImage(imagen_imagen)
+    imagen_boton = Button(ventana, image=imagen_ventana, text='Imagen', bg="#61677A", compound="top", fg="white", command=iniciar_visorImagen)
+    imagen_boton.place(x=150, y=130)
+
+    #Agregar un espacio para abrir el visor de videos
+    imagen_video = Image.open("imagenes/video.webp")
+    imagen_video = imagen_video.resize((50, 50), Image.ANTIALIAS)
+    video_ventana = ImageTk.PhotoImage(imagen_video)
+    video_boton = Button(ventana, image=video_ventana, text='Video', bg="#61677A", compound="top", fg="white", command=iniciar_visorVideo)
+    video_boton.place(x=150, y=230)
    
 
 # Ejecutar la ventana
