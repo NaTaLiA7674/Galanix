@@ -7,27 +7,25 @@ from calculadora import *
 from usuarios import *
 from tkinter import simpledialog
 import bcrypt
-from juego import *
-import subprocess
-from reproductorMusica import *
-from visorImagen import *
-from VisorVideo import *
-from EditorTexto import *
+from GestorAplicaciones import *
 
 def iniciar_juego():
-    subprocess.run(["python", "juego.py"])
+    gestor.ejecutar_aplicacion("juego")
 
 def iniciar_reproductor():
-    subprocess.run(["python", "reproductorMusica.py"])
+    gestor.ejecutar_aplicacion("musica")
 
 def iniciar_visorImagen():
-    subprocess.run(["python", "visorImagen.py"])
+    gestor.ejecutar_aplicacion("imagen")
 
 def iniciar_visorVideo():
-    subprocess.run(["python", "VisorVideo.py"])
+    gestor.ejecutar_aplicacion("video")
 
 def iniciar_editorTexto():
-    subprocess.run(["python", "EditorTexto.py"])
+    gestor.ejecutar_aplicacion("editor")
+
+def iniciar_navegador():
+    gestor.ejecutar_aplicacion("navegador", ventana)
 
 def validar_usuario(nombre, contraseña):
     connection = mysql.connector.connect(
@@ -268,7 +266,7 @@ def mostrar_footer():
     imagen_google = Image.open("imagenes/google.jpg")
     imagen_google = imagen_google.resize((30, 30), Image.ANTIALIAS)
     google = ImageTk.PhotoImage(imagen_google)
-    google_boton = Button(footer_frame, image=google, bg="#61677A")
+    google_boton = Button(footer_frame, image=google, bg="#61677A", command=iniciar_navegador)
     google_boton.pack(side=LEFT, pady=10, padx=10)
 
     # Agregar un botón para abrir la calculadora
@@ -300,7 +298,7 @@ def mostrar_widgets():
     imagen_google = Image.open("imagenes/google.jpg")
     imagen_google = imagen_google.resize((50, 50), Image.ANTIALIAS)
     google_ventana = ImageTk.PhotoImage(imagen_google)
-    google_boton = Button(ventana, image=google_ventana, text='Google', bg="#61677A", compound="top", fg="white")
+    google_boton = Button(ventana, image=google_ventana, text='Google', bg="#61677A", compound="top", fg="white", command=iniciar_navegador)
     google_boton.place(x=50, y=430)
 
     #Agregar un espacio para abrir la calculadora científica
