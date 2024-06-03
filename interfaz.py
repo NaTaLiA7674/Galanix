@@ -12,6 +12,7 @@ import subprocess
 from reproductorMusica import *
 from visorImagen import *
 from VisorVideo import *
+from EditorTexto import *
 
 def iniciar_juego():
     subprocess.run(["python", "juego.py"])
@@ -24,6 +25,9 @@ def iniciar_visorImagen():
 
 def iniciar_visorVideo():
     subprocess.run(["python", "VisorVideo.py"])
+
+def iniciar_editorTexto():
+    subprocess.run(["python", "EditorTexto.py"])
 
 def validar_usuario(nombre, contraseña):
     connection = mysql.connector.connect(
@@ -283,7 +287,7 @@ def actualizar_hora(label_footer):
 
 # Función para mostrar los widgets en el escritorio
 def mostrar_widgets():
-    global archivos_ventana, google_ventana, calculadora_ventana, juego_ventana, musica_ventana, imagen_ventana, video_ventana
+    global archivos_ventana, google_ventana, calculadora_ventana, juego_ventana, musica_ventana, imagen_ventana, video_ventana, editor_ventana
    
     # Agregar un espacio para mostrar archivos en el escritorio
     imagen_archivos = Image.open("imagenes/archivos.jpg")
@@ -333,6 +337,13 @@ def mostrar_widgets():
     video_ventana = ImageTk.PhotoImage(imagen_video)
     video_boton = Button(ventana, image=video_ventana, text='Video', bg="#61677A", compound="top", fg="white", command=iniciar_visorVideo)
     video_boton.place(x=150, y=230)
+
+    #Agregar un espacio para abrir el editor de texto
+    imagen_editor = Image.open("imagenes/editor.webp")
+    imagen_editor = imagen_editor.resize((50, 50), Image.ANTIALIAS)
+    editor_ventana = ImageTk.PhotoImage(imagen_editor)
+    editor_boton = Button(ventana, image=editor_ventana, text='Editor', bg="#61677A", compound="top", fg="white", command=iniciar_editorTexto)
+    editor_boton.place(x=150, y=330)
    
 
 # Ejecutar la ventana
